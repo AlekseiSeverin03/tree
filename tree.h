@@ -47,7 +47,7 @@ tree_t *SearchParentNode    (tree_t *root, tree_t *parent_ptr,  // when called p
 
 int     ReadCommands        (tree_t **tree_ptr);
 int     GraphDumpTree       (tree_t *tree_ptr);
-int     PrintNodes          (tree_t *tree_ptr, int depth_tree);
+int     PrintNodes          (tree_t *tree_ptr, int *cur_depth);
 int     PrintConnections    (tree_t *tree_ptr, data_t data_parent);
 
 

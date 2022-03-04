@@ -681,6 +681,8 @@ int ReadCommands (tree_t **root)
 }
 
 
+//--------------------------------------------------------------------------
+//--------------------------------------------------------------------------
 int GraphDumpTree (tree_t *tree_ptr)
 {
 	assert (tree_ptr != NULL);
@@ -697,7 +699,8 @@ int GraphDumpTree (tree_t *tree_ptr)
 
 	Make_All ();
 
-	PrintNodes (tree_ptr, max_depth);
+	int start_depth = 0;
+	PrintNodes (tree_ptr, &start_depth);
 
 	PrintConnections (tree_ptr, tree_ptr->data);	
 
@@ -709,22 +712,22 @@ int GraphDumpTree (tree_t *tree_ptr)
 
 //--------------------------------------------------------------------------
 //--------------------------------------------------------------------------
-int PrintNodes (tree_t *tree_ptr, int depth_tree)
+int PrintNodes (tree_t *tree_ptr, int *cur_depth)
 {
 	if (tree_ptr == NULL)
 	{
 		return 0;
 	}
 		
-	PrintNodes (tree_ptr->left_branch, depth_tree);
+	(*cur_depth)++;
+	PrintNodes (tree_ptr->left_branch, cur_depth);
+		
+	(*cur_depth)--;
+	Make_Node (*cur_depth, tree_ptr->data, "green");
 
-	int cur_depth = 0;
-	int max_depth = 0;
-	TreeDepth (tree_ptr, &cur_depth, &max_depth);
-
-	Make_Node (depth_tree - max_depth, tree_ptr->data, "green");
-
-	PrintNodes (tree_ptr->right_branch, depth_tree);
+	(*cur_depth)++;
+	PrintNodes (tree_ptr->right_branch, cur_depth);
+	(*cur_depth)--;
 
 	return 0;
 }	
